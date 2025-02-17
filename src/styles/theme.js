@@ -11,13 +11,32 @@ export const theme = {
     },
     accent: {
       primary: "#6366f1",
-      hover: "#818cf8",
+      primaryRGB: "99, 102, 241",
       muted: "rgba(99, 102, 241, 0.1)",
     },
     border: "rgba(255, 255, 255, 0.1)",
-    shadow: "rgba(0, 0, 0, 0.3)",
+    glass: {
+      background: "rgba(255, 255, 255, 0.03)",
+      border: "rgba(255, 255, 255, 0.1)",
+      blur: "12px",
+    },
+    shadow: {
+      primary: "rgba(0, 0, 0, 0.12)",
+      accent: "rgba(99, 102, 241, 0.3)",
+      accentHover: "rgba(99, 102, 241, 0.4)",
+    },
     error: "#ef4444",
     success: "#10b981",
+  },
+  borderRadius: {
+    small: "12px",
+    medium: "24px",
+    large: "999px",
+  },
+  breakpoints: {
+    mobile: "640px",
+    tablet: "968px",
+    desktop: "1440px",
   },
 };
 
