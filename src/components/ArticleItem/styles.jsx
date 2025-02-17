@@ -122,17 +122,21 @@ export const MetaItem = styled.span`
   gap: 0.5rem;
   padding: 0.5rem;
   border-radius: 12px;
-  background: ${({ theme }) => theme.colors.accent.muted};
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(8px);
+  background: ${({ theme }) => `rgba(${theme.colors.accent.primaryRGB}, 0.08)`};
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(${({ theme }) => theme.colors.accent.primaryRGB}, 0.15);
   min-width: 0;
   color: ${({ theme }) => theme.colors.accent.primary};
+  backdrop-filter: none;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
 
   &:hover {
     background: rgba(${({ theme }) => theme.colors.accent.primaryRGB}, 0.15);
     border-color: ${({ theme }) => theme.colors.accent.primary};
-    transform: translateY(-2px);
+    transform: translate3d(0, -2px, 0);
   }
 
   svg {
@@ -140,8 +144,9 @@ export const MetaItem = styled.span`
     height: 1.125rem;
     fill: ${({ theme }) => theme.colors.accent.primary};
     opacity: 0.85;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease;
     flex-shrink: 0;
+    transform: translate3d(0, 0, 0);
   }
 
   span {
@@ -152,10 +157,11 @@ export const MetaItem = styled.span`
     text-overflow: ellipsis;
     min-width: 0;
     color: inherit;
+    transform: translate3d(0, 0, 0);
   }
 
   &:hover svg {
-    transform: scale(1.1);
+    transform: translate3d(0, 0, 0) scale(1.1);
     opacity: 1;
   }
 
