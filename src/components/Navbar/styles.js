@@ -153,16 +153,16 @@ export const MobileMenu = styled.div`
   top: 60px; /* Height of navbar */
   left: 0;
   width: 100%;
-  height: calc(100vh - 60px); /* Subtract navbar height from viewport height */
+  height: calc(100vh - 60px);
   background-color: ${({ theme }) => theme.colors.background.secondary};
-  z-index: 1500; /* Lower than navbar's z-index */
+  z-index: 1500;
   transform: translateX(${({ $isOpen }) => ($isOpen ? "0" : "-100%")});
   transition: transform 0.3s ease-in-out;
 
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    padding: 2rem 0;
   }
 `;
 
@@ -170,12 +170,12 @@ export const MobileNavLinks = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  margin-top: 2rem;
+  margin-top: 2rem 0;
 `;
 
 export const MobileStyledNavLink = styled(StyledNavLink)`
   font-size: 1.5rem;
-  padding: 1rem;
+  padding: 1rem 0;
   width: 100%;
   text-align: center;
 `;
