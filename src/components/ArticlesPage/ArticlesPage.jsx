@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ArticleItem from "../ArticleItem";
 import Pagination from "./Pagination";
 import FilterForm from "./FilterForm";
@@ -13,6 +13,7 @@ import {
   ArticlesGrid,
   ContentWrapper,
   MobileFilterControls,
+  FilterOverlay,
 } from "./styles";
 
 const ArticlesPage = () => {
@@ -27,6 +28,17 @@ const ArticlesPage = () => {
   const { articles, isLoading, error, totalArticles } =
     useArticles(activeFilters);
 
+  useEffect(() => {
+    if (showFilters) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [showFilters]);
+
   const totalPages = Math.ceil(totalArticles / activeFilters.limit);
 
   const handleApplyAndClose = () => {
@@ -38,6 +50,10 @@ const ArticlesPage = () => {
     <PageContainer>
       <ContentWrapper>
         <ContentLayout>
+          <FilterOverlay
+            $show={showFilters}
+            onClick={() => setShowFilters(false)}
+          />
           <FiltersSection $show={showFilters}>
             <FilterForm
               filterInputs={filterInputs}

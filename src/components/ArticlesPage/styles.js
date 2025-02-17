@@ -49,8 +49,19 @@ export const FiltersSection = styled.aside`
   position: relative;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    display: ${({ $isExpanded }) => ($isExpanded ? "block" : "none")};
-    margin-bottom: 1rem;
+    display: ${({ $show }) => ($show ? "block" : "none")};
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 1000;
+    margin: 0;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 
   h2 {
@@ -180,6 +191,22 @@ export const MobileCloseFilters = styled.button`
   svg {
     width: 24px;
     height: 24px;
+  }
+`;
+
+export const FilterOverlay = styled.div`
+  display: none;
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    display: ${({ $show }) => ($show ? "block" : "none")};
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    overscroll-behavior: contain;
   }
 `;
 
