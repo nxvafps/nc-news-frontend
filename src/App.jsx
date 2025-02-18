@@ -10,6 +10,7 @@ import {
   SigninPage,
   SignupPage,
   TopicsPage,
+  UserProfilePage,
   UsersPage,
 } from "./components";
 import { AppContainer, MainContent, MainContentWrapper } from "./styles/styles";
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/articles/:articleId" element={<ArticlePage />} />
                 <Route path="/topics" element={<TopicsPage />} />
                 <Route path="/users" element={<UsersPage />} />
+                <Route path="/users/:username" element={<UserProfilePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/signin" element={<SigninPage />} />
