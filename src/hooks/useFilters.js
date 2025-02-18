@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const initialFilters = {
   author: "",
@@ -9,9 +9,18 @@ const initialFilters = {
   p: 1,
 };
 
-export const useFilters = () => {
+const useFilters = () => {
   const [filterInputs, setFilterInputs] = useState(initialFilters);
   const [activeFilters, setActiveFilters] = useState(initialFilters);
+
+  const setFilters = useCallback((newFilters) => {
+    const resetFilters = {
+      ...initialFilters,
+      ...newFilters,
+    };
+    setFilterInputs(resetFilters);
+    setActiveFilters(resetFilters);
+  }, []);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -21,21 +30,24 @@ export const useFilters = () => {
     }));
   };
 
-  const handleApplyFilters = () => {
+  const handleApplyFilters = useCallback(() => {
     setActiveFilters(filterInputs);
-    return false;
-  };
+  }, [filterInputs]);
 
-  const handlePageChange = (newPage) => {
-    setActiveFilters((prev) => ({
-      ...prev,
-      p: newPage,
-    }));
-    setFilterInputs((prev) => ({
-      ...prev,
-      p: newPage,
-    }));
-  };
+  const handlePageChange = useCallback(
+    (newPage) => {
+      const newFilters = {
+        ...filterInputs,
+        p: newPage,
+      };
+      setFilters(newFilters);
+    },
+    [filterInputs, setFilters]
+  );
+
+  const resetFilters = useCallback(() => {
+    setFilters(initialFilters);
+  }, [setFilters]);
 
   return {
     filterInputs,
@@ -43,5 +55,9 @@ export const useFilters = () => {
     handleFilterChange,
     handleApplyFilters,
     handlePageChange,
+    setFilters,
+    resetFilters,
   };
 };
+
+export default useFilters;

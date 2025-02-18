@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getArticleById } from "../api/articlesService";
 
-export const useArticle = (articleId) => {
+const useArticle = (articleId) => {
   const [article, setArticle] = useState(null);
   const [authorAvatar, setAuthorAvatar] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,3 +31,5 @@ export const useArticle = (articleId) => {
 
   return { article, authorAvatar, isLoading, error };
 };
+
+export default useArticle;
