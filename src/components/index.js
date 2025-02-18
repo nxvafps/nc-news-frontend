@@ -10,8 +10,10 @@ import ArticlePage from "./ArticlePage";
 import ArticlesPage from "./ArticlesPage";
 import HomePage from "./HomePage";
 import SigninPage from "./SigninPage";
+import SignupPage from "./SignupPage";
 import TopicsPage from "./TopicsPage";
 import UsersPage from "./UsersPage";
+import ProfilePage from "./ProfilePage/ProfilePage";
 
 export {
   ArticleContent,
@@ -25,6 +27,8 @@ export {
   ArticlesPage,
   HomePage,
   SigninPage,
+  SignupPage,
   TopicsPage,
   UsersPage,
+  ProfilePage,
 };

@@ -35,12 +35,19 @@ export const fetchCurrentUser = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     try {
       const { token } = getState().auth;
+      if (!token) {
+        return rejectWithValue({ message: "No authentication token found" });
+      }
+
       const response = await api.get("/auth/me", {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      if (error.response) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue({ message: "Failed to fetch user data" });
     }
   }
 );
@@ -83,11 +90,13 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(signupUser.fulfilled, (state, action) => {
+      .addCase(signupUser.fulfilled, (state) => {
         state.isLoading = false;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.isAuth = true;
+        // Explicitly reset auth state after successful signup
+        state.user = null;
+        state.token = null;
+        state.isAuth = false;
+        localStorage.removeItem("token");
       })
       .addCase(signupUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -114,11 +123,15 @@ const authSlice = createSlice({
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload;
+        state.error = null;
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+        state.user = null;
         state.isAuth = false;
+        state.token = null;
+        localStorage.removeItem("token");
       });
   },
 });

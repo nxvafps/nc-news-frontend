@@ -6,7 +6,9 @@ import {
   ArticlesPage,
   HomePage,
   Navbar,
+  ProfilePage,
   SigninPage,
+  SignupPage,
   TopicsPage,
   UsersPage,
 } from "./components";
@@ -40,8 +42,8 @@ function App() {
                 <Route path="/articles/:articleId" element={<ArticlePage />} />
                 <Route path="/topics" element={<TopicsPage />} />
                 <Route path="/users" element={<UsersPage />} />
-                <Route path="/profile" element={<h1>Profile</h1>} />
-                <Route path="/signup" element={<h1>sign up</h1>} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/signup" element={<SignupPage />} />
                 <Route path="/signin" element={<SigninPage />} />
               </Routes>
             </MainContent>
