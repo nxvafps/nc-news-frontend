@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { updateArticleVotes } from "../api/articlesService";
 
-export const useArticleVoting = (initialVotes, articleId, auth) => {
+const useArticleVoting = (initialVotes, articleId, auth) => {
   const [votes, setVotes] = useState(initialVotes);
   const [userVote, setUserVote] = useState(0);
   const [isVoting, setIsVoting] = useState(false);
@@ -32,3 +32,5 @@ export const useArticleVoting = (initialVotes, articleId, auth) => {
 
   return { votes, userVote, isVoting, handleVote };
 };
+
+export default useArticleVoting;

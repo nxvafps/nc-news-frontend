@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { updateCommentVotes } from "../api/commentService";
 
-export const useCommentVoting = (initialVotes, commentId, auth) => {
+const useCommentVoting = (initialVotes, commentId, auth) => {
   const [votes, setVotes] = useState(initialVotes);
   const [userVote, setUserVote] = useState(0);
   const [isVoting, setIsVoting] = useState(false);
@@ -32,3 +32,5 @@ export const useCommentVoting = (initialVotes, commentId, auth) => {
 
   return { votes, userVote, isVoting, handleVote };
 };
+
+export default useCommentVoting;

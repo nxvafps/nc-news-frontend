@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { getArticleComments } from "../api/articlesService";
 
-export const useComments = (articleId) => {
+const useComments = (articleId) => {
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -47,3 +47,5 @@ export const useComments = (articleId) => {
     updateComment,
   };
 };
+
+export default useComments;

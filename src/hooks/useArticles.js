@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getArticles } from "../api/articlesService";
 
-export const useArticles = (activeFilters) => {
+const useArticles = (activeFilters) => {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,3 +27,5 @@ export const useArticles = (activeFilters) => {
 
   return { articles, isLoading, error, totalArticles };
 };
+
+export default useArticles;

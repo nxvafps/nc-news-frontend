@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchCommentAuthor } from "../api/commentService";
 
-export const useUserAvatar = (username) => {
+const useUserAvatar = (username) => {
   const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
@@ -19,3 +19,5 @@ export const useUserAvatar = (username) => {
 
   return avatar;
 };
+
+export default useUserAvatar;
