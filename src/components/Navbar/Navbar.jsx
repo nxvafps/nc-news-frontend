@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
   NavContainer,
   NavContent,
@@ -12,19 +14,70 @@ import {
   MobileMenu,
   MobileNavLinks,
   MobileStyledNavLink,
+  TopBar,
+  TopBarButton,
+  TopBarContent,
+  TopBarSection,
+  TopBarLink,
 } from "./styles";
 import { FaBars, FaTimes } from "react-icons/fa";
 import SearchBar from "./SearchBar";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showTopBar, setShowTopBar] = useState(true);
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+      setShowTopBar(currentScrollPos === 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsMobileMenuOpen((prev) => !prev);
+    document.body.style.overflow = isMobileMenuOpen ? "auto" : "hidden";
   };
 
   return (
     <NavContainer>
+      <TopBar $show={showTopBar}>
+        <TopBarContent>
+          <TopBarSection>
+            <TopBarLink
+              as="a"
+              href="https://github.com/nxvafps/nc-news-frontend"
+              target="_blank"
+            >
+              View on GitHub
+            </TopBarLink>
+            <TopBarLink as="a" href="https://novafps.com" target="_blank">
+              View Portfolio
+            </TopBarLink>
+          </TopBarSection>
+          <TopBarSection>
+            {isAuth ? (
+              <TopBarButton onClick={() => navigate("/profile")}>
+                Profile
+              </TopBarButton>
+            ) : (
+              <>
+                <TopBarButton onClick={() => navigate("/signin")}>
+                  Sign In
+                </TopBarButton>
+                <TopBarButton onClick={() => navigate("/signup")}>
+                  Create Account
+                </TopBarButton>
+              </>
+            )}
+          </TopBarSection>
+        </TopBarContent>
+      </TopBar>
       <NavContent>
         <MenuToggle onClick={toggleMobileMenu}>
           {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
@@ -37,9 +90,10 @@ const Navbar = () => {
           <StyledNavLink to="/users">Users</StyledNavLink>
         </NavLinks>
         <SearchBar />
+        {!showTopBar && <ProfileIcon onClick={() => navigate("/profile")} />}
         <MobileIcons>
           <MobileSearchIcon />
-          <ProfileIcon />
+          <ProfileIcon onClick={() => navigate("/profile")} />
         </MobileIcons>
       </NavContent>
 

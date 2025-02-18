@@ -10,12 +10,13 @@ import {
   AuthorAvatar,
 } from "./styles";
 import { ArticleMetadata } from "./ArticleMeta";
-import { useUserAvatar } from "../../hooks/useUserAvatar";
+import { useUserAvatar } from "../../hooks";
 import { formatArticleDate } from "../../utils/dateUtils";
 
 const ArticleItem = memo(function Article({ article }) {
-  const { userAvatar, isLoading } = useUserAvatar(article.author);
+  const avatarUrl = useUserAvatar(article.author);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [avatarLoaded, setAvatarLoaded] = useState(false);
   const formattedDate = formatArticleDate(article.created_at);
 
   return (
@@ -26,12 +27,13 @@ const ArticleItem = memo(function Article({ article }) {
       <ArticleCard>
         <AuthorContainer>
           <AuthorAvatar
-            src={userAvatar || "/default-avatar-placeholder.png"}
+            src={avatarUrl || "/default-avatar-placeholder.png"}
             alt={`${article.author}'s profile picture`}
             loading="lazy"
+            onLoad={() => setAvatarLoaded(true)}
             style={{
-              opacity: isLoading ? 0.6 : 1,
-              transform: isLoading ? "scale(0.95)" : "scale(1)",
+              opacity: avatarLoaded ? 1 : 0.6,
+              transform: avatarLoaded ? "scale(1)" : "scale(0.95)",
               transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
             }}
           />

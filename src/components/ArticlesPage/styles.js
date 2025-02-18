@@ -227,36 +227,3 @@ export const ArticlesGrid = styled.div`
     grid-template-columns: 1fr;
   }
 `;
-
-export const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem 0;
-  gap: 1rem;
-`;
-
-export const PageButton = styled.button`
-  padding: 0.5rem 1rem;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  background-color: ${({ active, theme }) =>
-    active ? theme.colors.primary : "transparent"};
-  color: ${({ active, theme }) =>
-    active ? theme.colors.white : theme.colors.text};
-  cursor: pointer;
-  border-radius: 4px;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &:hover:not(:disabled) {
-    background-color: ${({ theme }) => theme.colors.primary};
-    color: ${({ theme }) => theme.colors.white};
-  }
-`;
-
-export const PageInfo = styled.span`
-  margin: 0 1rem;
-`;

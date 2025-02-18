@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import ArticleItem from "../ArticleItem";
-import Pagination from "./Pagination";
+import { Pagination } from "..";
 import FilterForm from "./FilterForm";
 import { useArticles } from "../../hooks/useArticles";
 import { useFilters } from "../../hooks/useFilters";
@@ -29,13 +29,13 @@ const ArticlesPage = () => {
     useArticles(activeFilters);
 
   useEffect(() => {
-    if (showFilters) {
+    if (showFilters && window.innerWidth < 768) {
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "auto";
     }
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "auto";
     };
   }, [showFilters]);
 
