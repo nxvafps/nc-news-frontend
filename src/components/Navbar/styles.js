@@ -179,3 +179,52 @@ export const MobileStyledNavLink = styled(StyledNavLink)`
   width: 100%;
   text-align: center;
 `;
+
+export const TopBar = styled.div`
+  display: none;
+
+  @media (min-width: 768px) {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: ${({ theme }) => theme.colors.background.secondary};
+    height: ${({ $show }) => ($show ? "40px" : "0")};
+    padding: ${({ $show }) => ($show ? "0 2rem" : "0")};
+    opacity: ${({ $show }) => ($show ? "1" : "0")};
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+  }
+`;
+
+export const TopBarButton = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors.text};
+  padding: 0.5rem 1rem;
+  margin-left: 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
+export const TopBarContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+export const TopBarSection = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+export const TopBarLink = styled(TopBarButton)`
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+`;

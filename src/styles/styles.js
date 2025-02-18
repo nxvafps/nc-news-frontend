@@ -15,3 +15,8 @@ export const MainContent = styled.main`
   margin-top: 60px;
   flex: 1;
 `;
+
+export const MainContentWrapper = styled.div`
+  margin-top: ${({ $showTopBar }) => ($showTopBar ? "80px" : "64px")};
+  transition: margin-top 0.3s ease-in-out;
+`;

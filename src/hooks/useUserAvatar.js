@@ -1,33 +1,21 @@
-import { useState, useEffect } from "react";
-import api from "../api/axios";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { fetchCommentAuthor } from "../api/commentService";
 
 export const useUserAvatar = (username) => {
-  const [userAvatar, setUserAvatar] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
-    const controller = new AbortController();
-
-    const fetchUserAvatar = async () => {
+    const fetchAvatar = async () => {
       try {
-        setIsLoading(true);
-        const { data } = await api.get(`/users/${username}`, {
-          signal: controller.signal,
-        });
-        setUserAvatar(data.user.avatar_url);
+        const user = await fetchCommentAuthor(username);
+        setAvatar(user.avatar_url);
       } catch (error) {
-        if (!axios.isCancel(error)) {
-          console.error("Failed to fetch user avatar:", error);
-        }
-      } finally {
-        setIsLoading(false);
+        console.error("Failed to fetch user avatar:", error);
       }
     };
 
-    fetchUserAvatar();
-    return () => controller.abort();
+    fetchAvatar();
   }, [username]);
 
-  return { userAvatar, isLoading };
+  return avatar;
 };
