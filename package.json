@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker-start": "docker-compose up -d",
+    "docker-build": "docker-compose up -d --build",
+    "docker-stop": "docker-compose down"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
