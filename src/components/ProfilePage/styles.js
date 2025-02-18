@@ -3,10 +3,11 @@ import { FaUserCircle } from "react-icons/fa";
 
 export const ProfileContainer = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   min-height: calc(100vh - 80px);
   padding: 2rem;
+  gap: 2rem;
 `;
 
 export const ProfileCard = styled.div`
@@ -16,6 +17,9 @@ export const ProfileCard = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const ProfileTitle = styled.h2`
@@ -75,4 +79,22 @@ export const DefaultAvatar = styled(FaUserCircle)`
   height: 120px;
   color: #666;
   margin-bottom: 1.5rem;
+`;
+
+export const ArticlesSection = styled.section`
+  width: 100%;
+  max-width: 800px;
+  margin-top: 1rem;
+`;
+
+export const ArticlesTitle = styled.h3`
+  margin-bottom: 1.5rem;
+  color: ${({ theme }) => theme.colors.text.primary};
+  text-align: center;
+`;
+
+export const ArticlesContainer = styled.div`
+  display: grid;
+  gap: 1.5rem;
+  width: 100%;
 `;
