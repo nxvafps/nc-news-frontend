@@ -13,6 +13,7 @@ import SigninPage from "./SigninPage";
 import SignupPage from "./SignupPage";
 import TopicsPage from "./TopicsPage";
 import UsersPage from "./UsersPage";
+import UserProfilePage from "./UserProfilePage";
 import ProfilePage from "./ProfilePage/ProfilePage";
 
 export {
@@ -30,5 +31,6 @@ export {
   SignupPage,
   TopicsPage,
   UsersPage,
+  UserProfilePage,
   ProfilePage,
 };
