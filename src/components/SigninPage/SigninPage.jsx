@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { loginUser } from "../../store/features/authSlice";
 import {
   SigninContainer,
@@ -8,19 +8,35 @@ import {
   FormTitle,
   FormGroup,
   Input,
+  ButtonContainer,
   SubmitButton,
   ErrorMessage,
   SignupButton,
+  SuccessMessage,
 } from "./styles";
 
 const SigninPage = () => {
+  const location = useLocation();
   const [credentials, setCredentials] = useState({
-    email: "",
+    email: location.state?.email || "",
     password: "",
   });
+  const [successMessage, setSuccessMessage] = useState(
+    location.state?.message || ""
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    // Clear success message after 5 seconds
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,6 +55,7 @@ const SigninPage = () => {
     <SigninContainer>
       <SigninForm onSubmit={handleSubmit}>
         <FormTitle>Sign In</FormTitle>
+        {successMessage && <SuccessMessage>{successMessage}</SuccessMessage>}
         <FormGroup>
           <Input
             type="email"
@@ -59,13 +76,15 @@ const SigninPage = () => {
             required
           />
         </FormGroup>
-        <SubmitButton type="submit" disabled={isLoading}>
-          {isLoading ? "Signing in..." : "Sign In"}
-        </SubmitButton>
-        {error && <ErrorMessage>{error.message}</ErrorMessage>}
-        <SignupButton type="button" onClick={() => navigate("/signup")}>
-          Create an Account
-        </SignupButton>
+        <ButtonContainer>
+          <SubmitButton type="submit" disabled={isLoading}>
+            {isLoading ? "Signing in..." : "Sign In"}
+          </SubmitButton>
+          {error && <ErrorMessage>{error.message}</ErrorMessage>}
+          <SignupButton type="button" onClick={() => navigate("/signup")}>
+            Create an Account
+          </SignupButton>
+        </ButtonContainer>
       </SigninForm>
     </SigninContainer>
   );

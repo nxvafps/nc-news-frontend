@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SigninContainer = styled.div`
+export const SignupContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,7 +8,7 @@ export const SigninContainer = styled.div`
   padding: 2rem;
 `;
 
-export const SigninForm = styled.form`
+export const SignupForm = styled.form`
   background: ${({ theme }) => theme.colors.background.primary};
   padding: 2rem;
   border-radius: 8px;
@@ -67,6 +67,7 @@ export const SubmitButton = styled.button`
   font-size: 1rem;
   cursor: pointer;
   transition: box-shadow 0.2s, transform 0.2s;
+  margin-top: 1rem;
 
   &:hover:not(:disabled) {
     box-shadow: 0 4px 12px ${({ theme }) => theme.colors.shadow.accentHover};
@@ -89,10 +90,11 @@ export const ErrorMessage = styled.div`
   max-width: 300px;
 `;
 
-export const SignupButton = styled.button`
+export const SigninButton = styled.button`
   width: 100%;
   max-width: 300px;
   padding: 0.75rem;
+  margin-top: 1rem;
   background-color: transparent;
   color: ${({ theme }) => theme.colors.text.primary};
   border: 1px solid ${({ theme }) => theme.colors.glass.border};
@@ -104,16 +106,4 @@ export const SignupButton = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.colors.glass.background};
   }
-`;
-
-export const SuccessMessage = styled.div`
-  color: ${({ theme }) => theme.colors.success};
-  text-align: center;
-  font-size: 0.875rem;
-  width: 100%;
-  max-width: 300px;
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  background-color: ${({ theme }) => theme.colors.success}20;
-  border-radius: ${({ theme }) => theme.borderRadius.small};
 `;

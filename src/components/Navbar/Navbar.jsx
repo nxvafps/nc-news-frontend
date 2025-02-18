@@ -44,6 +44,10 @@ const Navbar = () => {
     document.body.style.overflow = isMobileMenuOpen ? "auto" : "hidden";
   };
 
+  // Only show profile elements if user is authenticated AND we have a token
+  const token = localStorage.getItem("token");
+  const showProfileElements = isAuth && token;
+
   return (
     <NavContainer>
       <TopBar $show={showTopBar}>
@@ -61,7 +65,7 @@ const Navbar = () => {
             </TopBarLink>
           </TopBarSection>
           <TopBarSection>
-            {isAuth ? (
+            {showProfileElements ? (
               <TopBarButton onClick={() => navigate("/profile")}>
                 Profile
               </TopBarButton>
@@ -90,10 +94,14 @@ const Navbar = () => {
           <StyledNavLink to="/users">Users</StyledNavLink>
         </NavLinks>
         <SearchBar />
-        {!showTopBar && <ProfileIcon onClick={() => navigate("/profile")} />}
+        {!showTopBar && showProfileElements && (
+          <ProfileIcon onClick={() => navigate("/profile")} />
+        )}
         <MobileIcons>
           <MobileSearchIcon />
-          <ProfileIcon onClick={() => navigate("/profile")} />
+          {showProfileElements && (
+            <ProfileIcon onClick={() => navigate("/profile")} />
+          )}
         </MobileIcons>
       </NavContent>
 
