@@ -29,7 +29,14 @@ const useArticle = (articleId) => {
     fetchArticle();
   }, [articleId]);
 
-  return { article, authorAvatar, isLoading, error };
+  const updateArticleVotes = (newVotes) => {
+    setArticle((prevArticle) => ({
+      ...prevArticle,
+      votes: newVotes,
+    }));
+  };
+
+  return { article, authorAvatar, isLoading, error, updateArticleVotes };
 };
 
 export default useArticle;

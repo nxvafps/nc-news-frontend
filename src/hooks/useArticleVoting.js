@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { updateArticleVotes } from "../api/articlesService";
 
-const useArticleVoting = (initialVotes, articleId, auth) => {
-  const [votes, setVotes] = useState(initialVotes);
+const useArticleVoting = (initialVotes, articleId, auth, onVotesUpdate) => {
+  const [votes, setVotes] = useState(initialVotes || 0);
   const [userVote, setUserVote] = useState(0);
   const [isVoting, setIsVoting] = useState(false);
+
+  useEffect(() => {
+    setVotes(initialVotes || 0);
+  }, [initialVotes]);
 
   const handleVote = async (increment) => {
     if (isVoting || !auth.token) return;
@@ -13,17 +17,23 @@ const useArticleVoting = (initialVotes, articleId, auth) => {
     const previousVotes = votes;
     const previousUserVote = userVote;
 
+    // Calculate the new vote state
     const newVote = userVote === increment ? 0 : increment;
     const voteChange = newVote - userVote;
 
-    setVotes(votes + voteChange);
+    // Update both local and parent state
+    const newVotes = previousVotes + voteChange;
+    setVotes(newVotes);
     setUserVote(newVote);
+    onVotesUpdate(newVotes);
 
     try {
       await updateArticleVotes(articleId, voteChange, auth.token);
     } catch (error) {
+      // Revert both local and parent state on error
       setVotes(previousVotes);
       setUserVote(previousUserVote);
+      onVotesUpdate(previousVotes);
       console.error("Failed to update vote:", error);
     } finally {
       setIsVoting(false);

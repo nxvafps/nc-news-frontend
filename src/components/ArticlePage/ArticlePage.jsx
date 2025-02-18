@@ -21,12 +21,14 @@ function ArticlePage() {
     authorAvatar,
     isLoading: articleLoading,
     error: articleError,
+    updateArticleVotes,
   } = useArticle(articleId);
 
   const { votes, userVote, isVoting, handleVote } = useArticleVoting(
-    article?.votes || 0,
+    article ? article.votes : 0,
     articleId,
-    auth
+    auth,
+    updateArticleVotes
   );
 
   const {
