@@ -73,3 +73,21 @@ export const ErrorText = styled.p`
   color: ${({ theme }) => theme.colors.error};
   margin: 0;
 `;
+
+export const ButtonContainer = styled.div`
+  flex-direction: row !important;
+  justify-content: flex-end;
+  gap: 1rem;
+`;
+
+export const CancelButton = styled.button`
+  padding: 0.75rem;
+  background: transparent;
+  color: ${({ theme }) => theme.colors.text.primary};
+  border: 1px solid ${({ theme }) => theme.colors.border.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.small};
+  cursor: pointer;
+  &:hover {
+    background: ${({ theme }) => theme.colors.background.primary};
+  }
+`;

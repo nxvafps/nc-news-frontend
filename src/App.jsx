@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
+import { useDispatch } from "react-redux";
+import { fetchCurrentUser } from "./store/features/authSlice";
 import {
   ArticlePage,
   ArticlesPage,
@@ -20,6 +22,11 @@ import "./App.css";
 
 function App() {
   const [showTopBar, setShowTopBar] = useState(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,6 +49,10 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/articles" element={<ArticlesPage />} />
                 <Route path="/articles/new" element={<ArticleForm />} />
+                <Route
+                  path="/articles/:articleId/edit"
+                  element={<ArticleForm />}
+                />
                 <Route path="/articles/:articleId" element={<ArticlePage />} />
                 <Route path="/topics" element={<TopicsPage />} />
                 <Route path="/users" element={<UsersPage />} />
