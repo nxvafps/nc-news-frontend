@@ -29,7 +29,6 @@ const SigninPage = () => {
   const { isLoading, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    // Clear success message after 5 seconds
     if (successMessage) {
       const timer = setTimeout(() => {
         setSuccessMessage("");

@@ -17,11 +17,9 @@ const useArticleVoting = (initialVotes, articleId, auth, onVotesUpdate) => {
     const previousVotes = votes;
     const previousUserVote = userVote;
 
-    // Calculate the new vote state
     const newVote = userVote === increment ? 0 : increment;
     const voteChange = newVote - userVote;
 
-    // Update both local and parent state
     const newVotes = previousVotes + voteChange;
     setVotes(newVotes);
     setUserVote(newVote);
@@ -30,7 +28,6 @@ const useArticleVoting = (initialVotes, articleId, auth, onVotesUpdate) => {
     try {
       await updateArticleVotes(articleId, voteChange, auth.token);
     } catch (error) {
-      // Revert both local and parent state on error
       setVotes(previousVotes);
       setUserVote(previousUserVote);
       onVotesUpdate(previousVotes);

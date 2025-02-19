@@ -92,7 +92,6 @@ const authSlice = createSlice({
       })
       .addCase(signupUser.fulfilled, (state) => {
         state.isLoading = false;
-        // Explicitly reset auth state after successful signup
         state.user = null;
         state.token = null;
         state.isAuth = false;
