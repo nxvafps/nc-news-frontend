@@ -12,6 +12,7 @@ import {
   TopicsPage,
   UserProfilePage,
   UsersPage,
+  ArticleForm,
 } from "./components";
 import { AppContainer, MainContent, MainContentWrapper } from "./styles/styles";
 import theme from "./styles/theme";
@@ -40,6 +41,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/articles" element={<ArticlesPage />} />
+                <Route path="/articles/new" element={<ArticleForm />} />
                 <Route path="/articles/:articleId" element={<ArticlePage />} />
                 <Route path="/topics" element={<TopicsPage />} />
                 <Route path="/users" element={<UsersPage />} />

@@ -8,6 +8,7 @@ import {
   ArticleTime,
   AuthorContainer,
   AuthorAvatar,
+  StyledFaUserCircle,
 } from "./styles";
 import { ArticleMetadata } from "./ArticleMeta";
 import { useUserAvatar } from "../../hooks";
@@ -26,17 +27,21 @@ const ArticleItem = memo(function Article({ article }) {
     >
       <ArticleCard>
         <AuthorContainer>
-          <AuthorAvatar
-            src={avatarUrl || "/default-avatar-placeholder.png"}
-            alt={`${article.author}'s profile picture`}
-            loading="lazy"
-            onLoad={() => setAvatarLoaded(true)}
-            style={{
-              opacity: avatarLoaded ? 1 : 0.6,
-              transform: avatarLoaded ? "scale(1)" : "scale(0.95)",
-              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-            }}
-          />
+          {avatarUrl ? (
+            <AuthorAvatar
+              src={avatarUrl}
+              alt={`${article.author}'s profile picture`}
+              loading="lazy"
+              onLoad={() => setAvatarLoaded(true)}
+              style={{
+                opacity: avatarLoaded ? 1 : 0.6,
+                transform: avatarLoaded ? "scale(1)" : "scale(0.95)",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
+            />
+          ) : (
+            <StyledFaUserCircle />
+          )}
         </AuthorContainer>
         <ArticleImage
           src={article.article_img_url}
