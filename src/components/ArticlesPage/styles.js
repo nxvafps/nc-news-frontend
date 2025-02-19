@@ -27,6 +27,20 @@ export const ContentLayout = styled.div`
   }
 `;
 
+export const LeftColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+
+  @media (max-width: 968px) {
+    display: none;
+  }
+`;
+
 export const MobileFilterControls = styled.div`
   display: none;
 
@@ -53,7 +67,7 @@ export const FiltersSection = styled.aside`
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+  @media (max-width: 968px) {
     display: ${({ $show }) => ($show ? "block" : "none")};
     position: fixed;
     top: 50%;
@@ -63,7 +77,7 @@ export const FiltersSection = styled.aside`
     max-width: 400px;
     max-height: 90vh;
     overflow-y: auto;
-    z-index: 1001;
+    z-index: 1000;
     margin: 0;
     background: ${({ theme }) => theme.colors.background.secondary};
   }
@@ -265,14 +279,3 @@ export const ArticlesGrid = styled.div`
 `;
 
 export const ButtonContainer = styled.div``;
-
-export const LeftColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  width: 100%;
-
-  @media (max-width: 968px) {
-    display: none; // Hide the desktop layout on mobile
-  }
-`;

@@ -120,7 +120,7 @@ const ArticlesPage = () => {
             <NewArticleButton onClick={() => navigate("/articles/new")}>
               Create New Article
             </NewArticleButton>
-            <FiltersSection $show={true}>
+            <FiltersSection>
               <FilterForm
                 filterInputs={filterInputs}
                 handleFilterChange={handleFilterChange}
@@ -140,14 +140,16 @@ const ArticlesPage = () => {
               </FilterToggleButton>
             </MobileFilterControls>
 
-            <FiltersSection $show={showFilters}>
-              <FilterForm
-                filterInputs={filterInputs}
-                handleFilterChange={handleFilterChange}
-                handleApplyFilters={handleApplyAndClose}
-                onClose={() => setShowFilters(false)}
-              />
-            </FiltersSection>
+            {showFilters && (
+              <FiltersSection $show={true}>
+                <FilterForm
+                  filterInputs={filterInputs}
+                  handleFilterChange={handleFilterChange}
+                  handleApplyFilters={handleApplyAndClose}
+                  onClose={() => setShowFilters(false)}
+                />
+              </FiltersSection>
+            )}
 
             <ArticlesSection>
               {isLoading ? (

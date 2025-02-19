@@ -87,6 +87,21 @@ export const ErrorMessage = styled.div`
   }
 `;
 
+export const NavigationContainer = styled.nav`
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: ${({ theme }) => theme.colors.background.secondary};
+  padding: 1rem;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  margin: -1.5rem -1.5rem 1.5rem;
+
+  @media (max-width: 768px) {
+    margin: -1rem -1rem 1rem;
+    padding: 0.75rem;
+  }
+`;
+
 export const BackButton = styled.button`
   display: inline-flex;
   align-items: center;
@@ -97,7 +112,6 @@ export const BackButton = styled.button`
   border-radius: 14px;
   color: ${({ theme }) => theme.colors.text.primary};
   cursor: pointer;
-  margin-bottom: 2rem;
   font-weight: 500;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 12px ${({ theme }) => theme.colors.shadow};
@@ -121,10 +135,8 @@ export const BackButton = styled.button`
 
   @media (max-width: 768px) {
     padding: 0.75rem 1rem;
-    margin-bottom: 1.5rem;
     font-size: 0.9rem;
-    width: 100%;
-    max-width: 200px;
+    width: auto;
     justify-content: center;
   }
 
