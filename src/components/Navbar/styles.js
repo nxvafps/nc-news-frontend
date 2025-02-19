@@ -141,6 +141,12 @@ export const ProfileIcon = styled(FaUser)`
   cursor: pointer;
 `;
 
+export const DesktopOnly = styled.div`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
 export const MobileSearchIcon = styled(SearchIcon)`
   margin: 0;
   font-size: 1.2rem;
