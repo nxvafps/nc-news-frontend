@@ -10,6 +10,7 @@ import {
   MobileIcons,
   MenuToggle,
   ProfileIcon,
+  DesktopOnly,
   MobileSearchIcon,
   MobileMenu,
   MobileNavLinks,
@@ -44,7 +45,6 @@ const Navbar = () => {
     document.body.style.overflow = isMobileMenuOpen ? "auto" : "hidden";
   };
 
-  // Only show profile elements if user is authenticated AND we have a token
   const token = localStorage.getItem("token");
   const showProfileElements = isAuth && token;
 
@@ -94,14 +94,24 @@ const Navbar = () => {
           <StyledNavLink to="/users">Users</StyledNavLink>
         </NavLinks>
         <SearchBar />
-        {!showTopBar && showProfileElements && (
-          <ProfileIcon onClick={() => navigate("/profile")} />
+        {!showTopBar && (
+          <DesktopOnly>
+            <ProfileIcon
+              onClick={() =>
+                navigate(showProfileElements ? "/profile" : "/signin")
+              }
+            />
+          </DesktopOnly>
         )}
         <MobileIcons>
           <MobileSearchIcon />
-          {showProfileElements && (
-            <ProfileIcon onClick={() => navigate("/profile")} />
-          )}
+          {
+            <ProfileIcon
+              onClick={() =>
+                navigate(showProfileElements ? "/profile" : "/signin")
+              }
+            />
+          }
         </MobileIcons>
       </NavContent>
 

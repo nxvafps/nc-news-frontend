@@ -12,11 +12,14 @@ export const AppContainer = styled.div`
 `;
 
 export const MainContent = styled.main`
-  margin-top: 60px;
   flex: 1;
 `;
 
 export const MainContentWrapper = styled.div`
-  margin-top: ${({ $showTopBar }) => ($showTopBar ? "80px" : "64px")};
+  margin-top: ${({ $showTopBar }) => ($showTopBar ? "40px" : "64px")};
+
+  @media (min-width: 768px) {
+    margin-top: ${({ $showTopBar }) => ($showTopBar ? "90px" : "64px")};
+  }
   transition: margin-top 0.3s ease-in-out;
 `;
