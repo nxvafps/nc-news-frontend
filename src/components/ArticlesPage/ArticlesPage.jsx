@@ -4,6 +4,7 @@ import ArticleItem from "../ArticleItem";
 import { Pagination } from "..";
 import FilterForm from "./FilterForm";
 import { useArticles, useFilters } from "../../hooks";
+import { searchArticles } from "../../api/articlesService";
 import {
   PageContainer,
   ContentLayout,
@@ -28,6 +29,7 @@ const initialFilters = {
 const ArticlesPage = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchResults, setSearchResults] = useState([]);
   const {
     filterInputs,
     activeFilters,
@@ -37,33 +39,42 @@ const ArticlesPage = () => {
     setFilters,
   } = useFilters();
 
+  // Handle URL params -> filters (only on mount and search param changes)
   useEffect(() => {
     const params = Object.fromEntries(searchParams.entries());
-    const hasValidParams = Object.keys(params).length > 0;
+    const searchTerm = params.search;
 
-    if (hasValidParams) {
+    // Only update filters if there are non-search params
+    const filterParams = { ...params };
+    delete filterParams.search;
+
+    if (Object.keys(filterParams).length > 0) {
       const newFilters = {
         ...initialFilters,
-        ...params,
-        p: Number(params.p) || 1,
+        ...filterParams,
+        p: Number(filterParams.p) || 1,
       };
       setFilters(newFilters);
     }
+
+    // Handle search separately
+    if (searchTerm) {
+      const fetchSearchResults = async () => {
+        try {
+          const results = await searchArticles(searchTerm);
+          setSearchResults(Array.isArray(results) ? results : []);
+        } catch (error) {
+          console.error("Search failed:", error);
+          setSearchResults([]);
+        }
+      };
+      fetchSearchResults();
+    } else {
+      setSearchResults([]);
+    }
   }, [searchParams, setFilters]);
 
-  useEffect(() => {
-    const newParams = new URLSearchParams();
-    Object.entries(activeFilters).forEach(([key, value]) => {
-      if (value && value !== initialFilters[key]) {
-        newParams.set(key, value);
-      }
-    });
-    setSearchParams(newParams, { replace: true });
-  }, [activeFilters, setSearchParams]);
-
-  const { articles, isLoading, error, totalArticles } =
-    useArticles(activeFilters);
-
+  // Handle body scroll lock
   useEffect(() => {
     if (showFilters && window.innerWidth < 768) {
       document.body.style.overflow = "hidden";
@@ -75,11 +86,27 @@ const ArticlesPage = () => {
     };
   }, [showFilters]);
 
+  const { articles, isLoading, error, totalArticles } =
+    useArticles(activeFilters);
+  const displayArticles = searchParams.get("search")
+    ? searchResults
+    : articles || [];
   const totalPages = Math.ceil(totalArticles / activeFilters.limit);
 
   const handleApplyAndClose = () => {
     handleApplyFilters();
     setShowFilters(false);
+
+    // Update URL params when filters are applied
+    const newParams = new URLSearchParams(searchParams);
+    Object.entries(filterInputs).forEach(([key, value]) => {
+      if (value && value !== initialFilters[key]) {
+        newParams.set(key, value);
+      } else {
+        newParams.delete(key);
+      }
+    });
+    setSearchParams(newParams, { replace: true });
   };
 
   return (
@@ -114,15 +141,17 @@ const ArticlesPage = () => {
               ) : (
                 <>
                   <ArticlesGrid>
-                    {articles.map((article) => (
+                    {displayArticles.map((article) => (
                       <ArticleItem key={article.article_id} article={article} />
                     ))}
                   </ArticlesGrid>
-                  <Pagination
-                    currentPage={activeFilters.p}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                  />
+                  {!searchResults && (
+                    <Pagination
+                      currentPage={activeFilters.p}
+                      totalPages={totalPages}
+                      onPageChange={handlePageChange}
+                    />
+                  )}
                 </>
               )}
             </ArticlesSection>
