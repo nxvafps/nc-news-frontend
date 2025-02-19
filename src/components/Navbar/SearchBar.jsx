@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { SearchContainer, SearchIcon, SearchInput } from "./styles";
 import debounce from "lodash/debounce";
 
-const SearchBar = () => {
+const SearchBar = ({ isMobile = false }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
@@ -25,14 +25,16 @@ const SearchBar = () => {
   };
 
   return (
-    <SearchContainer>
+    <SearchContainer $isMobile={isMobile}>
       <SearchIcon />
       <SearchInput
         type="text"
         value={searchTerm}
         onChange={handleSearch}
-        placeholder="Search articles..."
-        onClick={() => navigate("/articles")}
+        placeholder={isMobile ? "Search..." : "Search articles..."}
+        onClick={() => !isMobile && navigate("/articles")}
+        $isMobile={isMobile}
+        autoFocus={isMobile}
       />
     </SearchContainer>
   );

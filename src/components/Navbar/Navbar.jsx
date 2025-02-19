@@ -20,13 +20,15 @@ import {
   TopBarContent,
   TopBarSection,
   TopBarLink,
+  CloseSearchButton,
 } from "./styles";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaSearch } from "react-icons/fa";
 import SearchBar from "./SearchBar";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showTopBar, setShowTopBar] = useState(true);
+  const [isMobileSearchActive, setIsMobileSearchActive] = useState(false);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const navigate = useNavigate();
 
@@ -43,6 +45,15 @@ const Navbar = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
     document.body.style.overflow = isMobileMenuOpen ? "auto" : "hidden";
+  };
+
+  const handleMobileSearchClick = () => {
+    setIsMobileSearchActive(true);
+    navigate("/articles");
+  };
+
+  const handleCloseSearch = () => {
+    setIsMobileSearchActive(false);
   };
 
   const token = localStorage.getItem("token");
@@ -83,36 +94,50 @@ const Navbar = () => {
         </TopBarContent>
       </TopBar>
       <NavContent>
-        <MenuToggle onClick={toggleMobileMenu}>
-          {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
-        </MenuToggle>
-        <Logo>NC News</Logo>
-        <NavLinks>
-          <StyledNavLink to="/">Home</StyledNavLink>
-          <StyledNavLink to="/articles">Articles</StyledNavLink>
-          <StyledNavLink to="/topics">Topics</StyledNavLink>
-          <StyledNavLink to="/users">Users</StyledNavLink>
-        </NavLinks>
-        <SearchBar />
-        {!showTopBar && (
-          <DesktopOnly>
-            <ProfileIcon
-              onClick={() =>
-                navigate(showProfileElements ? "/profile" : "/signin")
-              }
-            />
-          </DesktopOnly>
+        {isMobileSearchActive ? (
+          <>
+            <MenuToggle onClick={toggleMobileMenu}>
+              {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+            </MenuToggle>
+            <SearchBar isMobile={true} />
+            <CloseSearchButton onClick={handleCloseSearch}>
+              <FaTimes />
+            </CloseSearchButton>
+          </>
+        ) : (
+          <>
+            <MenuToggle onClick={toggleMobileMenu}>
+              {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+            </MenuToggle>
+            <Logo>NC News</Logo>
+            <NavLinks>
+              <StyledNavLink to="/">Home</StyledNavLink>
+              <StyledNavLink to="/articles">Articles</StyledNavLink>
+              <StyledNavLink to="/topics">Topics</StyledNavLink>
+              <StyledNavLink to="/users">Users</StyledNavLink>
+            </NavLinks>
+            <SearchBar />
+            {!showTopBar && (
+              <DesktopOnly>
+                <ProfileIcon
+                  onClick={() =>
+                    navigate(showProfileElements ? "/profile" : "/signin")
+                  }
+                />
+              </DesktopOnly>
+            )}
+            <MobileIcons>
+              <MobileSearchIcon onClick={handleMobileSearchClick}>
+                <FaSearch />
+              </MobileSearchIcon>
+              <ProfileIcon
+                onClick={() =>
+                  navigate(showProfileElements ? "/profile" : "/signin")
+                }
+              />
+            </MobileIcons>
+          </>
         )}
-        <MobileIcons>
-          <MobileSearchIcon />
-          {
-            <ProfileIcon
-              onClick={() =>
-                navigate(showProfileElements ? "/profile" : "/signin")
-              }
-            />
-          }
-        </MobileIcons>
       </NavContent>
 
       <MobileMenu $isOpen={isMobileMenuOpen}>

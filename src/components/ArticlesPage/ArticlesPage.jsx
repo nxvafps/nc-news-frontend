@@ -39,12 +39,10 @@ const ArticlesPage = () => {
     setFilters,
   } = useFilters();
 
-  // Handle URL params -> filters (only on mount and search param changes)
   useEffect(() => {
     const params = Object.fromEntries(searchParams.entries());
     const searchTerm = params.search;
 
-    // Only update filters if there are non-search params
     const filterParams = { ...params };
     delete filterParams.search;
 
@@ -57,7 +55,6 @@ const ArticlesPage = () => {
       setFilters(newFilters);
     }
 
-    // Handle search separately
     if (searchTerm) {
       const fetchSearchResults = async () => {
         try {
@@ -74,7 +71,6 @@ const ArticlesPage = () => {
     }
   }, [searchParams, setFilters]);
 
-  // Handle body scroll lock
   useEffect(() => {
     if (showFilters && window.innerWidth < 768) {
       document.body.style.overflow = "hidden";
@@ -97,7 +93,6 @@ const ArticlesPage = () => {
     handleApplyFilters();
     setShowFilters(false);
 
-    // Update URL params when filters are applied
     const newParams = new URLSearchParams(searchParams);
     Object.entries(filterInputs).forEach(([key, value]) => {
       if (value && value !== initialFilters[key]) {
