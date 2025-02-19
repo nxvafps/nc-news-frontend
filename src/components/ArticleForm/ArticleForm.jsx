@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTopics } from "../../hooks";
-import { createArticle } from "../../api/articlesService";
+import {
+  createArticle,
+  getArticleById,
+  updateArticle,
+} from "../../api/articlesService";
 import {
   FormContainer,
   Form,
@@ -11,10 +15,13 @@ import {
   Select,
   SubmitButton,
   ErrorText,
+  ButtonContainer,
+  CancelButton,
 } from "./styles";
 
 const ArticleForm = () => {
   const navigate = useNavigate();
+  const { articleId } = useParams();
   const { token } = useSelector((state) => state.auth);
   const { topics, isLoading: isLoadingTopics } = useTopics();
   const [formData, setFormData] = useState({
@@ -24,12 +31,35 @@ const ArticleForm = () => {
   });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(!!articleId);
+  const isEditMode = !!articleId;
 
   useEffect(() => {
     if (!token) {
       navigate("/signin", { replace: true });
     }
   }, [token, navigate]);
+
+  useEffect(() => {
+    const loadArticle = async () => {
+      if (articleId) {
+        try {
+          const article = await getArticleById(articleId);
+          setFormData({
+            title: article.title,
+            topic: article.topic,
+            body: article.body,
+          });
+        } catch (err) {
+          setError("Failed to load article");
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadArticle();
+  }, [articleId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,22 +75,27 @@ const ArticleForm = () => {
     setIsSubmitting(true);
 
     try {
-      const article = await createArticle(formData, token);
-      navigate(`/articles/${article.article_id}`);
+      if (isEditMode) {
+        await updateArticle(articleId, { body: formData.body }, token);
+        navigate(`/articles/${articleId}`);
+      } else {
+        const newArticle = await createArticle(formData, token);
+        navigate(`/articles/${newArticle.article_id}`);
+      }
     } catch (err) {
-      setError(err.response?.data?.msg || "Failed to create article");
+      setError(err.response?.data?.msg || "Failed to save article");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (isLoadingTopics) return <div>Loading topics...</div>;
+  if (isLoadingTopics || isLoading) return <div>Loading...</div>;
   if (!token) return null;
 
   return (
     <FormContainer>
       <Form onSubmit={handleSubmit}>
-        <h2>Create New Article</h2>
+        <h2>{isEditMode ? "Edit Article" : "Create New Article"}</h2>
 
         <div>
           <label htmlFor="title">Title</label>
@@ -70,6 +105,7 @@ const ArticleForm = () => {
             value={formData.title}
             onChange={handleChange}
             required
+            disabled={isEditMode}
           />
         </div>
 
@@ -81,6 +117,7 @@ const ArticleForm = () => {
             value={formData.topic}
             onChange={handleChange}
             required
+            disabled={isEditMode}
           >
             <option value="">Select a topic</option>
             {topics.map((topic) => (
@@ -105,9 +142,23 @@ const ArticleForm = () => {
 
         {error && <ErrorText>{error}</ErrorText>}
 
-        <SubmitButton type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Creating..." : "Create Article"}
-        </SubmitButton>
+        <ButtonContainer>
+          <CancelButton
+            type="button"
+            onClick={() => navigate(`/articles/${articleId || ""}`)}
+          >
+            Cancel
+          </CancelButton>
+          <SubmitButton type="submit" disabled={isSubmitting}>
+            {isSubmitting
+              ? isEditMode
+                ? "Saving..."
+                : "Creating..."
+              : isEditMode
+              ? "Save Changes"
+              : "Create Article"}
+          </SubmitButton>
+        </ButtonContainer>
       </Form>
     </FormContainer>
   );

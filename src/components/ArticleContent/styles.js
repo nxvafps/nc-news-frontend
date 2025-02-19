@@ -298,39 +298,69 @@ export const ArticleBody = styled.div`
 export const ArticleActions = styled.div`
   display: flex;
   gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 `;
 
 export const ActionButton = styled.button`
-  padding: 0.75rem 1.5rem;
-  background: ${(props) =>
-    props.$delete ? "var(--error-color)" : "var(--background-tertiary)"};
-  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
   border: 1px solid
-    ${(props) => (props.$delete ? "transparent" : "var(--border-color)")};
-  border-radius: 12px;
+    ${(props) =>
+      props.$delete ? props.theme.colors.error : props.theme.colors.border};
+  border-radius: 14px;
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: ${(props) =>
+    props.$delete
+      ? props.theme.colors.error
+      : props.theme.colors.background.tertiary};
+  color: ${(props) =>
+    props.$delete ? "white" : props.theme.colors.text.primary};
+  box-shadow: 0 4px 12px
+    ${({ theme, $delete }) =>
+      $delete ? "rgba(220, 53, 69, 0.2)" : theme.colors.shadow.primary};
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
+    box-shadow: 0 6px 16px
+      ${({ theme, $delete }) =>
+        $delete ? "rgba(220, 53, 69, 0.3)" : theme.colors.shadow.accent};
     background: ${(props) =>
-      props.$delete ? "var(--error-hover)" : "var(--background-secondary)"};
+      props.$delete ? "#dc2f45" : props.theme.colors.accent.primary};
+    border-color: transparent;
+    color: white;
   }
 
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    transform: none;
   }
 
   svg {
     width: 1.25rem;
     height: 1.25rem;
+    transition: transform 0.2s ease;
+    fill: white;
+  }
+
+  &:hover svg {
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    &:hover:not(:disabled) {
+      transform: none;
+    }
   }
 `;

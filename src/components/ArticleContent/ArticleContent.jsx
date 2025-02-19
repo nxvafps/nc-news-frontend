@@ -60,7 +60,7 @@ const ArticleContent = ({
     }
   };
 
-  const isAuthor = auth.user?.username === article.author;
+  const isAuthor = auth.user?.user.username === article.author;
 
   return (
     <ArticleContainer>
