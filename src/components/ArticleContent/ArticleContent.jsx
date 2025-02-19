@@ -2,12 +2,12 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { deleteArticle } from "../../api/articlesService";
+import AuthorAvatar from "./AuthorAvatar";
 import {
   ArticleContainer,
   ArticleTitle,
   ArticleImage,
   AuthorSection,
-  AuthorAvatar,
   AuthorInfo,
   ArticleMeta,
   MetaItem,
@@ -76,11 +76,7 @@ const ArticleContent = ({
         />
 
         <AuthorSection>
-          <AuthorAvatar
-            src={authorAvatar || "/default-avatar.png"}
-            alt={`${article.author}'s profile picture`}
-            loading="lazy"
-          />
+          <AuthorAvatar author={article.author} avatarUrl={authorAvatar} />
           <AuthorInfo>
             <h3>Written by {article.author}</h3>
             <time

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import ArticleItem from "../ArticleItem";
 import { Pagination } from "..";
 import FilterForm from "./FilterForm";
@@ -15,6 +15,9 @@ import {
   ContentWrapper,
   MobileFilterControls,
   FilterOverlay,
+  NewArticleButton,
+  ButtonContainer,
+  LeftColumn,
 } from "./styles";
 
 const initialFilters = {
@@ -27,6 +30,7 @@ const initialFilters = {
 };
 
 const ArticlesPage = () => {
+  const navigate = useNavigate();
   const [showFilters, setShowFilters] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchResults, setSearchResults] = useState([]);
@@ -108,21 +112,26 @@ const ArticlesPage = () => {
     <PageContainer>
       <ContentWrapper>
         <ContentLayout>
-          <FilterOverlay
-            $show={showFilters}
-            onClick={() => setShowFilters(false)}
-          />
-          <FiltersSection $show={showFilters}>
-            <FilterForm
-              filterInputs={filterInputs}
-              handleFilterChange={handleFilterChange}
-              handleApplyFilters={handleApplyAndClose}
-              onClose={() => setShowFilters(false)}
-            />
-          </FiltersSection>
+          <LeftColumn>
+            <NewArticleButton onClick={() => navigate("/articles/new")}>
+              Create New Article
+            </NewArticleButton>
+
+            <FiltersSection $show={showFilters}>
+              <FilterForm
+                filterInputs={filterInputs}
+                handleFilterChange={handleFilterChange}
+                handleApplyFilters={handleApplyAndClose}
+                onClose={() => setShowFilters(false)}
+              />
+            </FiltersSection>
+          </LeftColumn>
 
           <div>
             <MobileFilterControls>
+              <NewArticleButton onClick={() => navigate("/articles/new")}>
+                Create New Article
+              </NewArticleButton>
               <FilterToggleButton onClick={() => setShowFilters(!showFilters)}>
                 {showFilters ? "Hide Filters" : "Show Filters"}
               </FilterToggleButton>

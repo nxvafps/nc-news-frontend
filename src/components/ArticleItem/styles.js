@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
 
 export const ArticleLink = styled(Link)`
   text-decoration: none;
@@ -217,6 +218,26 @@ export const AuthorAvatar = styled.img`
   background-color: ${({ theme }) => theme.colors.background.secondary};
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 12px ${({ theme }) => theme.colors.shadow.primary};
+
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.15) rotate(5deg);
+      border-color: ${({ theme }) => theme.colors.accent.hover};
+      box-shadow: 0 8px 24px ${({ theme }) => theme.colors.shadow.primary};
+    }
+  }
+`;
+
+export const StyledFaUserCircle = styled(FaUserCircle)`
+  width: clamp(40px, 6vw, 48px);
+  height: clamp(40px, 6vw, 48px);
+  color: ${({ theme }) => theme.colors.text.secondary};
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: ${({ theme }) => theme.colors.background.secondary};
+  border-radius: 50%;
+  border: 2px solid ${({ theme }) => theme.colors.accent.primary};
+  box-shadow: 0 4px 12px ${({ theme }) => theme.colors.shadow.primary};
+  padding: 2px;
 
   @media (hover: hover) {
     &:hover {

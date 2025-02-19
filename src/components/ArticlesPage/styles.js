@@ -18,18 +18,23 @@ export const ContentLayout = styled.div`
   display: grid;
   grid-template-columns: 300px 1fr;
   gap: 2rem;
+  position: relative;
+  margin-top: 2rem;
 
   @media (max-width: 968px) {
     grid-template-columns: 1fr;
+    margin-top: 0;
   }
 `;
 
 export const MobileFilterControls = styled.div`
   display: none;
-  margin-bottom: 1rem;
 
   @media (max-width: 968px) {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; // Consistent gap between buttons
+    margin-bottom: 2rem;
   }
 `;
 
@@ -155,7 +160,6 @@ export const FilterToggleButton = styled.button`
   font-size: 0.9375rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  width: 100%;
   box-shadow: 0 4px 12px ${({ theme }) => theme.colors.shadow.accent};
 
   &:hover {
@@ -163,8 +167,42 @@ export const FilterToggleButton = styled.button`
     box-shadow: 0 6px 16px ${({ theme }) => theme.colors.shadow.accentHover};
   }
 
-  @media (min-width: calc(${({ theme }) => theme.breakpoints.tablet} + 1px)) {
-    display: none;
+  /* Filter toggle button (mobile only) */
+  &:not([as]) {
+    width: 100%;
+    @media (min-width: calc(${({ theme }) => theme.breakpoints.tablet} + 1px)) {
+      display: none;
+    }
+  }
+
+  /* Create article button (visible on all screens) */
+  &[as="button"] {
+    display: block;
+    width: 100%;
+    margin-bottom: 2rem;
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+      margin-bottom: 1rem;
+    }
+  }
+`;
+
+export const NewArticleButton = styled.button`
+  padding: 0.75rem 1.5rem;
+  border-radius: ${({ theme }) => theme.borderRadius.large};
+  border: none;
+  background: ${({ theme }) => theme.colors.accent.primary};
+  color: white;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px ${({ theme }) => theme.colors.shadow.accent};
+  width: 100%;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px ${({ theme }) => theme.colors.shadow.accentHover};
   }
 `;
 
@@ -225,5 +263,18 @@ export const ArticlesGrid = styled.div`
 
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
+  }
+`;
+
+export const ButtonContainer = styled.div``;
+
+export const LeftColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+
+  @media (max-width: 968px) {
+    display: none; // Hide the desktop layout on mobile
   }
 `;

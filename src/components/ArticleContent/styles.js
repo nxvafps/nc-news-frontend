@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FaUserCircle } from "react-icons/fa";
 
 export const ArticleContainer = styled.article`
   position: relative;
@@ -99,27 +100,27 @@ export const AuthorSection = styled.div`
   }
 `;
 
-export const AuthorAvatar = styled.img`
-  width: clamp(48px, 8vw, 60px);
-  height: clamp(48px, 8vw, 60px);
+export const AuthorAvatarContainer = styled.div`
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  border: 2px solid ${({ theme }) => theme.colors.accentPrimary};
-  background: ${({ theme }) => theme.colors.backgroundSecondary};
+  overflow: hidden;
+  background: ${({ theme }) => theme.colors.background.secondary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const AuthorAvatar = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+`;
 
-  &:hover {
-    transform: scale(1.1) rotate(5deg);
-    border-color: ${({ theme }) => theme.colors.accentHover};
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-    &:hover {
-      transform: none;
-    }
-  }
+export const StyledFaUserCircle = styled(FaUserCircle)`
+  width: 100%;
+  height: 100%;
 `;
 
 export const AuthorInfo = styled.div`

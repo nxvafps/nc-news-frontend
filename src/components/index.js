@@ -34,3 +34,5 @@ export {
   UserProfilePage,
   ProfilePage,
 };
+
+export { default as ArticleForm } from "./ArticleForm";
