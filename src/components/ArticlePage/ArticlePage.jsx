@@ -9,6 +9,7 @@ import {
   ErrorMessage,
   BackButton,
   ArticleCommentsSection,
+  NavigationContainer,
 } from "./styles";
 
 function ArticlePage() {
@@ -88,14 +89,14 @@ function ArticlePage() {
 
   return (
     <ArticlePageContainer>
-      <nav aria-label="Article navigation">
+      <NavigationContainer aria-label="Article navigation">
         <BackButton
           onClick={() => navigate("/articles")}
           aria-label="Go back to articles list"
         >
           <span aria-hidden="true">←</span> Back to Articles
         </BackButton>
-      </nav>
+      </NavigationContainer>
 
       <main>
         <ArticleContent
