@@ -9,7 +9,7 @@ export const searchArticles = async (searchTerm) => {
   const response = await api.get("/articles/search", {
     params: { q: searchTerm },
   });
-  return response.data;
+  return response.data.articles; // Assuming the response contains an articles array
 };
 
 export const getArticleById = async (articleId) => {

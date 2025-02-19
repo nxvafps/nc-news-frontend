@@ -1,10 +1,41 @@
+import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { SearchContainer, SearchIcon, SearchInput } from "./styles";
+import debounce from "lodash/debounce";
 
-const SearchBar = () => {
+const SearchBar = ({ isMobile = false }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const debouncedNavigate = useCallback(
+    debounce((term) => {
+      if (term) {
+        navigate(`/articles?search=${encodeURIComponent(term)}`);
+      } else {
+        navigate("/articles");
+      }
+    }, 300),
+    []
+  );
+
+  const handleSearch = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    debouncedNavigate(term);
+  };
+
   return (
-    <SearchContainer>
+    <SearchContainer $isMobile={isMobile}>
       <SearchIcon />
-      <SearchInput type="text" placeholder="Search articles..." />
+      <SearchInput
+        type="text"
+        value={searchTerm}
+        onChange={handleSearch}
+        placeholder={isMobile ? "Search..." : "Search articles..."}
+        onClick={() => !isMobile && navigate("/articles")}
+        $isMobile={isMobile}
+        autoFocus={isMobile}
+      />
     </SearchContainer>
   );
 };

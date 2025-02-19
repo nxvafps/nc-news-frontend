@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import styled, { css } from "styled-components";
+import { Link, NavLink } from "react-router-dom";
 import { FaSearch, FaBars, FaUser, FaTimes } from "react-icons/fa";
 
 export const NavContainer = styled.nav`
@@ -22,6 +22,7 @@ export const NavContent = styled.div`
   margin: 0;
   width: 100%;
   box-sizing: border-box;
+  height: 60px; // Fixed height for consistency
 
   @media (min-width: 769px) {
     gap: 3rem;
@@ -74,13 +75,25 @@ export const StyledNavLink = styled(NavLink)`
 export const SearchContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.background.tertiary};
-  padding: 0.5rem 1rem;
+  background-color: ${({ theme }) => theme.colors.background.secondary};
   border-radius: 20px;
-  margin-left: auto;
+  padding: 0.5rem 1rem;
+  margin: 0 1rem;
+  flex: 0 1 300px;
+  height: 40px; // Fixed height for consistency
+
+  ${(props) =>
+    props.$isMobile &&
+    css`
+      flex: 1;
+      margin: 0;
+      border-radius: 0;
+      padding: 0 0.5rem;
+      height: 100%;
+    `}
 
   @media (max-width: 768px) {
-    display: none;
+    display: ${(props) => (props.$isMobile ? "flex" : "none")};
   }
 `;
 
@@ -90,16 +103,41 @@ export const SearchIcon = styled(FaSearch)`
 `;
 
 export const SearchInput = styled.input`
-  border: none;
   background: none;
-  outline: none;
-  padding: 0;
-  font-size: 0.9rem;
-  width: 200px;
+  border: none;
   color: ${({ theme }) => theme.colors.text.primary};
+  margin-left: 0.5rem;
+  width: 100%;
 
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.text.secondary};
+  &:focus {
+    outline: none;
+  }
+
+  ${(props) =>
+    props.$isMobile &&
+    css`
+      font-size: 16px;
+      height: 40px;
+    `}
+`;
+
+export const CloseSearchButton = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors.text.primary};
+  padding: 0 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  svg {
+    font-size: 1.2rem;
+  }
+
+  @media (min-width: 769px) {
+    display: none;
   }
 `;
 
@@ -124,14 +162,20 @@ export const HamburgerIcon = styled(FaBars)`
   }
 `;
 
-export const MenuToggle = styled.div`
+export const MenuToggle = styled.button`
   display: none;
   color: ${({ theme }) => theme.colors.text.primary};
   font-size: 1.2rem;
   cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0 0.5rem;
+  height: 100%;
 
   @media (max-width: 768px) {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
@@ -147,10 +191,16 @@ export const DesktopOnly = styled.div`
   }
 `;
 
-export const MobileSearchIcon = styled(SearchIcon)`
-  margin: 0;
+export const MobileSearchIcon = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors.text.primary};
   font-size: 1.2rem;
   cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const MobileMenu = styled.div`

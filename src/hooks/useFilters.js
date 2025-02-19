@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 const initialFilters = {
   author: "",
@@ -22,13 +22,13 @@ const useFilters = () => {
     setActiveFilters(resetFilters);
   }, []);
 
-  const handleFilterChange = (e) => {
+  const handleFilterChange = useCallback((e) => {
     const { name, value } = e.target;
     setFilterInputs((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
+  }, []);
 
   const handleApplyFilters = useCallback(() => {
     setActiveFilters(filterInputs);
@@ -37,12 +37,13 @@ const useFilters = () => {
   const handlePageChange = useCallback(
     (newPage) => {
       const newFilters = {
-        ...filterInputs,
+        ...activeFilters,
         p: newPage,
       };
-      setFilters(newFilters);
+      setActiveFilters(newFilters);
+      setFilterInputs(newFilters);
     },
-    [filterInputs, setFilters]
+    [activeFilters]
   );
 
   const resetFilters = useCallback(() => {
