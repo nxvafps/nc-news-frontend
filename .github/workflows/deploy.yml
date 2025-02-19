@@ -1,0 +1,25 @@
+name: Deploy to VPS
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            cd /var/www/nc-news-frontend
+            npm run docker-stop
+            git pull
+            npm run docker-build
