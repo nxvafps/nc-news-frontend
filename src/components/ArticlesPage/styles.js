@@ -63,10 +63,9 @@ export const FiltersSection = styled.aside`
     max-width: 400px;
     max-height: 90vh;
     overflow-y: auto;
-    z-index: 1000;
+    z-index: 1001;
     margin: 0;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
+    background: ${({ theme }) => theme.colors.background.secondary};
   }
 
   h2 {
@@ -241,10 +240,9 @@ export const FilterOverlay = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
-    z-index: 999;
-    overscroll-behavior: contain;
+    z-index: 1000;
   }
 `;
 

@@ -76,13 +76,13 @@ const ArticlesPage = () => {
   }, [searchParams, setFilters]);
 
   useEffect(() => {
-    if (showFilters && window.innerWidth < 768) {
+    if (showFilters) {
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "unset";
     }
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "unset";
     };
   }, [showFilters]);
 
@@ -110,14 +110,17 @@ const ArticlesPage = () => {
 
   return (
     <PageContainer>
+      <FilterOverlay
+        $show={showFilters}
+        onClick={() => setShowFilters(false)}
+      />
       <ContentWrapper>
         <ContentLayout>
           <LeftColumn>
             <NewArticleButton onClick={() => navigate("/articles/new")}>
               Create New Article
             </NewArticleButton>
-
-            <FiltersSection $show={showFilters}>
+            <FiltersSection $show={true}>
               <FilterForm
                 filterInputs={filterInputs}
                 handleFilterChange={handleFilterChange}
@@ -132,10 +135,19 @@ const ArticlesPage = () => {
               <NewArticleButton onClick={() => navigate("/articles/new")}>
                 Create New Article
               </NewArticleButton>
-              <FilterToggleButton onClick={() => setShowFilters(!showFilters)}>
-                {showFilters ? "Hide Filters" : "Show Filters"}
+              <FilterToggleButton onClick={() => setShowFilters(true)}>
+                Show Filters
               </FilterToggleButton>
             </MobileFilterControls>
+
+            <FiltersSection $show={showFilters}>
+              <FilterForm
+                filterInputs={filterInputs}
+                handleFilterChange={handleFilterChange}
+                handleApplyFilters={handleApplyAndClose}
+                onClose={() => setShowFilters(false)}
+              />
+            </FiltersSection>
 
             <ArticlesSection>
               {isLoading ? (
