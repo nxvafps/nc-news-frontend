@@ -18,7 +18,7 @@ export const useProfile = () => {
   }, [dispatch, isAuth]);
 
   useEffect(() => {
-    if (user) {
+    if (user?.user?.username) {
       const loadAvatar = async () => {
         try {
           const url = await fetchUserAvatar(user.user.username);

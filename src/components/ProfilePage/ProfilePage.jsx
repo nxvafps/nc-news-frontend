@@ -29,7 +29,7 @@ const ProfilePage = () => {
     return <ProfileContainer>Error: {error.message}</ProfileContainer>;
   }
 
-  if (!user) {
+  if (!user || !user.user) {
     return (
       <ProfileContainer>Please sign in to view your profile.</ProfileContainer>
     );
