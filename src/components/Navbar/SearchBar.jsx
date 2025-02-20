@@ -27,7 +27,11 @@ const SearchBar = ({ isMobile = false }) => {
   return (
     <SearchContainer $isMobile={isMobile}>
       <SearchIcon />
+      <label htmlFor="search-input" className="sr-only">
+        {isMobile ? "Search" : "Search articles"}
+      </label>
       <SearchInput
+        id="search-input"
         type="text"
         value={searchTerm}
         onChange={handleSearch}
