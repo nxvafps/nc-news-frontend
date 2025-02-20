@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getTopics } from "../api/topicsService";
 
 const useTopics = () => {
@@ -6,23 +6,24 @@ const useTopics = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchTopics = async () => {
-      try {
-        const data = await getTopics();
-        setTopics(data);
-        setError(null);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchTopics();
+  const fetchTopics = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const data = await getTopics();
+      setTopics(data);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  return { topics, isLoading, error };
+  useEffect(() => {
+    fetchTopics();
+  }, [fetchTopics]);
+
+  return { topics, isLoading, error, refetch: fetchTopics };
 };
 
 export default useTopics;
